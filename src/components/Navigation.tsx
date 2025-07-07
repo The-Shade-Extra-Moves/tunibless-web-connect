@@ -6,11 +6,12 @@ const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
-    { name: "Home", href: "#home", nameAr: "الرئيسية", nameDe: "Startseite", nameFr: "Accueil" },
-    { name: "About", href: "#about", nameAr: "حول", nameDe: "Über uns", nameFr: "À propos" },
-    { name: "Services", href: "#services", nameAr: "الخدمات", nameDe: "Dienstleistungen", nameFr: "Services" },
-    { name: "Team", href: "#team", nameAr: "الفريق", nameDe: "Team", nameFr: "Équipe" },
-    { name: "Contact", href: "#contact", nameAr: "اتصل", nameDe: "Kontakt", nameFr: "Contact" },
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Registration", href: "/anmeldung" },
+    { name: "Events", href: "/veranstaltungen" },
+    { name: "Contact", href: "/kontakt" },
   ];
 
   return (
