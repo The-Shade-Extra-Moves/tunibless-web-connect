@@ -59,7 +59,7 @@ const Hero = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="min-w-48 border-white/30 text-white hover:bg-white/10"
+              className="min-w-48 border-white/30  hover:bg-white/10"
               onClick={() => scrollToSection('mission')}
             >
               {t.hero.learnMore}
