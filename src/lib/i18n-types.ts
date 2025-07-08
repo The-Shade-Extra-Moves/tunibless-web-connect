@@ -93,6 +93,20 @@ export interface TranslationKeys {
     title: string;
     subtitle: string;
     description: string;
+    
+    // Service categories for Services component
+    checklists: string;
+    checklistsDesc: string;
+    templates: string;
+    templatesDesc: string;
+    guides: string;
+    guidesDesc: string;
+    videos: string;
+    videosDesc: string;
+    community: string;
+    communityDesc: string;
+    viewAll: string;
+    
     searchPlaceholder: string;
     searchLabel: string;
     filterAll: string;

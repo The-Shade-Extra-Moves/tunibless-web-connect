@@ -90,6 +90,20 @@ export const fr: TranslationKeys = {
     title: "Nos services",
     subtitle: "Support complet pour votre parcours éducatif",
     description: "Découvrez une large gamme de services gratuits conçus pour vous soutenir",
+    
+    // Service categories for Services component
+    checklists: "Listes de contrôle",
+    checklistsDesc: "Guides étape par étape pour vous accompagner dans votre parcours",
+    templates: "Modèles",
+    templatesDesc: "Documents et formulaires prêts à utiliser pour vos candidatures",
+    guides: "Guides",
+    guidesDesc: "Guides complets couvrant tous les aspects des études en Allemagne",
+    videos: "Tutoriels vidéo",
+    videosDesc: "Ressources d'apprentissage visuel avec des explications d'experts",
+    community: "Communauté",
+    communityDesc: "Connectez-vous avec d'autres étudiants et obtenez un soutien par les pairs",
+    viewAll: "Voir tous les services",
+    
     searchPlaceholder: "Rechercher des services...",
     searchLabel: "Rechercher",
     filterAll: "Tous les services",
@@ -794,8 +808,19 @@ export const fr: TranslationKeys = {
   pages: {
     about: {
       title: "À propos",
-      description: "En savoir plus sur TuniBless"
+      description: "En savoir plus sur TuniBless e.V. et notre mission"
     }
+  },
+
+  notFound: {
+    title: "Page non trouvée",
+    description: "Désolé, nous n'avons pas pu trouver la page que vous cherchez.",
+    attemptedPath: "Chemin tenté",
+    returnHome: "Retour à l'accueil",
+    goBack: "Retour",
+    suggestions: "Suggestions",
+    needHelp: "Besoin d'aide?",
+    refresh: "Actualiser la page"
   },
 
   onboarding: {
@@ -1008,15 +1033,5 @@ export const fr: TranslationKeys = {
         description: "Obtenez un accès spécial aux ressources et événements."
       }
     }
-  },
-  notFound: {
-    title: "Page non trouvée",
-    description: "Oups ! La page que vous recherchez n'existe pas.",
-    attemptedPath: "Chemin tenté :",
-    returnHome: "Retour à l'accueil",
-    goBack: "Retour",
-    suggestions: "Cherchiez-vous :",
-    needHelp: "Besoin d'aide ?",
-    refresh: "Actualiser la page"
   }
 };

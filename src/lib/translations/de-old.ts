@@ -792,10 +792,9 @@ export const de: TranslationKeys = {
   },
 
   pages: {
-    notFound: {
-      title: "Seite nicht gefunden",
-      description: "Entschuldigung, wir konnten die gesuchte Seite nicht finden.",
-      goHome: "Zur Startseite"
+    about: {
+      title: "Über uns",
+      description: "Erfahren Sie mehr über TuniBless"
     }
   },
 
@@ -1009,5 +1008,15 @@ export const de: TranslationKeys = {
         description: "Erhalten Sie besonderen Zugang zu Ressourcen und Veranstaltungen."
       }
     }
+  },
+  notFound: {
+    title: "Seite nicht gefunden",
+    description: "Ups! Die Seite, die Sie suchen, existiert nicht.",
+    attemptedPath: "Versuchter Pfad:",
+    returnHome: "Zur Startseite",
+    goBack: "Zurück",
+    suggestions: "Haben Sie vielleicht nach dem Folgenden gesucht:",
+    needHelp: "Benötigen Sie noch Hilfe?",
+    refresh: "Seite aktualisieren"
   }
 };

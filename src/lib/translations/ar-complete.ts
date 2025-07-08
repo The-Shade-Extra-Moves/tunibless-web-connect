@@ -84,20 +84,6 @@ export const ar: TranslationKeys = {
     title: "خدماتنا",
     subtitle: "دعم شامل لرحلتك التعليمية",
     description: "اكتشف مجموعة واسعة من الخدمات المجانية المصممة لدعمك",
-    
-    // Service categories for Services component
-    checklists: "قوائم المراجعة",
-    checklistsDesc: "أدلة خطوة بخطوة لمساعدتك في رحلتك",
-    templates: "النماذج",
-    templatesDesc: "وثائق ونماذج جاهزة للاستخدام في طلباتك",
-    guides: "الأدلة",
-    guidesDesc: "أدلة شاملة تغطي جميع جوانب الدراسة في ألمانيا",
-    videos: "الدروس التعليمية",
-    videosDesc: "موارد تعلم مرئية مع شروحات الخبراء",
-    community: "المجتمع",
-    communityDesc: "تواصل مع طلاب آخرين واحصل على دعم الأقران",
-    viewAll: "عرض جميع الخدمات",
-    
     searchPlaceholder: "البحث في الخدمات...",
     searchLabel: "بحث",
     filterAll: "جميع الخدمات",

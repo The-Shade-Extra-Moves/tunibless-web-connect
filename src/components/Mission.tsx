@@ -8,18 +8,18 @@ const Mission = () => {
   const features = [
     {
       icon: Users,
-      title: t.mission.community,
-      description: t.mission.communityDesc,
+      title: t.features.community,
+      description: t.features.communityDesc,
     },
     {
       icon: BookOpen,
-      title: t.mission.guidance,
-      description: t.mission.guidanceDesc,
+      title: t.features.guidance,
+      description: t.features.guidanceDesc,
     },
     {
       icon: FileText,
-      title: t.mission.resources,
-      description: t.mission.resourcesDesc,
+      title: t.features.resources,
+      description: t.features.resourcesDesc,
     },
   ];
 

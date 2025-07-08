@@ -792,10 +792,9 @@ export const en: TranslationKeys = {
   },
 
   pages: {
-    notFound: {
-      title: "Page Not Found",
-      description: "Sorry, we couldn't find the page you're looking for.",
-      goHome: "Go Home"
+    about: {
+      title: "About Us",
+      description: "Learn more about TuniBless"
     }
   },
 
@@ -1009,5 +1008,15 @@ export const en: TranslationKeys = {
         description: "Get special access to resources and events."
       }
     }
+  },
+  notFound: {
+    title: "Page Not Found",
+    description: "Oops! The page you're looking for doesn't exist.",
+    attemptedPath: "Attempted path:",
+    returnHome: "Return to Home",
+    goBack: "Go Back",
+    suggestions: "Were you looking for:",
+    needHelp: "Still need help?",
+    refresh: "Refresh Page"
   }
 };

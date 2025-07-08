@@ -90,6 +90,20 @@ export const de: TranslationKeys = {
     title: "Unsere Dienstleistungen",
     subtitle: "Umfassende Unterstützung für deine Bildungsreise",
     description: "Entdecke eine breite Palette kostenloser Dienstleistungen, die speziell entwickelt wurden, um dich zu unterstützen",
+    
+    // Service categories for Services component
+    checklists: "Checklisten",
+    checklistsDesc: "Schritt-für-Schritt Anleitungen für deinen Weg",
+    templates: "Vorlagen",
+    templatesDesc: "Fertige Dokumente und Formulare für deine Bewerbungen",
+    guides: "Leitfäden",
+    guidesDesc: "Umfassende Leitfäden zu allen Aspekten des Studiums in Deutschland",
+    videos: "Video-Tutorials",
+    videosDesc: "Visuelle Lernressourcen mit Expertenerkl ärungen",
+    community: "Gemeinschaft",
+    communityDesc: "Vernetze dich mit anderen Studenten und erhalte Peer-Support",
+    viewAll: "Alle Dienstleistungen anzeigen",
+    
     searchPlaceholder: "Dienstleistungen suchen...",
     searchLabel: "Suchen",
     filterAll: "Alle Dienstleistungen",
@@ -791,10 +805,21 @@ export const de: TranslationKeys = {
     showLess: "Weniger anzeigen"
   },
 
+  notFound: {
+    title: "Seite nicht gefunden",
+    description: "Ups! Die Seite, die Sie suchen, existiert nicht.",
+    attemptedPath: "Versuchter Pfad:",
+    returnHome: "Zur Startseite",
+    goBack: "Zurück",
+    suggestions: "Haben Sie vielleicht nach dem Folgenden gesucht:",
+    needHelp: "Benötigen Sie noch Hilfe?",
+    refresh: "Seite aktualisieren"
+  },
+
   pages: {
     about: {
       title: "Über uns",
-      description: "Erfahren Sie mehr über TuniBless"
+      description: "Erfahren Sie mehr über TuniBless e.V. und unsere Mission"
     }
   },
 
@@ -1008,15 +1033,5 @@ export const de: TranslationKeys = {
         description: "Erhalten Sie besonderen Zugang zu Ressourcen und Veranstaltungen."
       }
     }
-  },
-  notFound: {
-    title: "Seite nicht gefunden",
-    description: "Ups! Die Seite, die Sie suchen, existiert nicht.",
-    attemptedPath: "Versuchter Pfad:",
-    returnHome: "Zur Startseite",
-    goBack: "Zurück",
-    suggestions: "Haben Sie vielleicht nach dem Folgenden gesucht:",
-    needHelp: "Benötigen Sie noch Hilfe?",
-    refresh: "Seite aktualisieren"
   }
 };

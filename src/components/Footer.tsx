@@ -185,6 +185,125 @@ const Footer = () => {
 
         <Separator />
 
+        {/* Developer Credits Section */}
+        <div className="py-8 bg-gradient-to-r from-primary/5 via-german-gold/5 to-tunisian-red/5 dark:from-primary/10 dark:via-german-gold/10 dark:to-tunisian-red/10">
+          <div className="text-center max-w-4xl mx-auto px-4">
+            {/* Section Header */}
+            <div className="mb-6">
+              <h3 className="text-2xl font-bold text-foreground mb-2 flex items-center justify-center gap-2">
+                <span className="text-primary">👤</span>
+                About the Developer
+              </h3>
+              <div className="w-24 h-1 bg-gradient-to-r from-primary via-german-gold to-tunisian-red mx-auto rounded-full"></div>
+            </div>
+
+            {/* Developer Info */}
+            <div className="mb-6">
+              <p className="text-lg text-muted-foreground leading-relaxed mb-4">
+                This platform is proudly designed and developed by{" "}
+                <span className="font-bold text-primary">Nassim Ben Nsib</span>, also known as{" "}
+                <span className="font-bold text-german-gold">Shade Vybes</span>{" "}
+                <code className="px-2 py-1 bg-muted rounded text-sm font-mono">ShadeVybes</code> — 
+                a passionate <span className="text-foreground font-semibold">Software Engineer</span>, {" "}
+                <span className="text-foreground font-semibold">AI Developer</span>, and{" "}
+                <span className="text-foreground font-semibold">DevOps Enthusiast</span> dedicated to 
+                crafting elegant, community-driven digital experiences.
+              </p>
+            </div>
+
+            {/* Contact Links */}
+            <div className="mb-6">
+              <h4 className="text-lg font-semibold text-foreground mb-4 flex items-center justify-center gap-2">
+                <span>🔗</span> Connect with Me
+              </h4>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 max-w-3xl mx-auto">
+                {[
+                  {
+                    name: "Email",
+                    icon: Mail,
+                    href: "mailto:nassim.bennsib@hotmail.com",
+                    color: "text-blue-600 hover:text-blue-700",
+                    bgColor: "hover:bg-blue-50 dark:hover:bg-blue-950/20"
+                  },
+                  {
+                    name: "Phone",
+                    icon: Phone,
+                    href: "tel:+21622601631",
+                    color: "text-green-600 hover:text-green-700",
+                    bgColor: "hover:bg-green-50 dark:hover:bg-green-950/20"
+                  },
+                  {
+                    name: "LinkedIn",
+                    icon: ExternalLink,
+                    href: "https://linkedin.com/in/shade-vybes",
+                    color: "text-blue-700 hover:text-blue-800",
+                    bgColor: "hover:bg-blue-50 dark:hover:bg-blue-950/20"
+                  },
+                  {
+                    name: "GitHub",
+                    icon: ExternalLink,
+                    href: "https://github.com/shade-vybes",
+                    color: "text-gray-700 hover:text-gray-800 dark:text-gray-300 dark:hover:text-gray-200",
+                    bgColor: "hover:bg-gray-50 dark:hover:bg-gray-950/20"
+                  },
+                  {
+                    name: "WhatsApp",
+                    icon: MessageCircle,
+                    href: "https://wa.me/21622601631",
+                    color: "text-green-600 hover:text-green-700",
+                    bgColor: "hover:bg-green-50 dark:hover:bg-green-950/20"
+                  },
+                  {
+                    name: "Telegram",
+                    icon: ExternalLink,
+                    href: "https://t.me/shadevybes",
+                    color: "text-blue-500 hover:text-blue-600",
+                    bgColor: "hover:bg-blue-50 dark:hover:bg-blue-950/20"
+                  }
+                ].map((contact) => (
+                  <Button
+                    key={contact.name}
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => window.open(contact.href, '_blank')}
+                    className={`flex flex-col items-center gap-1 h-auto py-3 px-2 transition-all duration-300 ${contact.bgColor} ${contact.color} group`}
+                    title={contact.href}
+                  >
+                    <contact.icon className="h-5 w-5 group-hover:scale-110 transition-transform duration-200" />
+                    <span className="text-xs font-medium">{contact.name}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Developer Note */}
+            <div className="mb-6">
+              <div className="bg-muted/50 rounded-lg p-6 border-l-4 border-primary">
+                <h4 className="text-lg font-semibold text-foreground mb-3 flex items-center justify-center gap-2">
+                  <span>✨</span> Developer Note
+                </h4>
+                <blockquote className="text-muted-foreground italic leading-relaxed">
+                  "This project reflects my deep commitment to empowering communities through modern web technologies, 
+                  AI, and thoughtful user experience. If you enjoyed this project or want to collaborate, 
+                  feel free to reach out or connect with me online."
+                </blockquote>
+              </div>
+            </div>
+
+            {/* Credits Badge */}
+            <div className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary/10 to-german-gold/10 rounded-full border border-primary/20">
+              <span className="text-sm text-muted-foreground">📌 Built with</span>
+              <Heart className="h-4 w-4 text-red-500 animate-pulse" />
+              <span className="text-sm text-muted-foreground">by</span>
+              <span className="font-bold text-primary">Nassim Ben Nsib</span>
+              <span className="text-sm text-muted-foreground">|</span>
+              <span className="font-bold text-german-gold">ShadeVybes</span>
+            </div>
+          </div>
+        </div>
+
+        <Separator />
+
         {/* Bottom Footer */}
         <div className="py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">

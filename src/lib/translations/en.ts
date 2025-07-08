@@ -90,6 +90,20 @@ export const en: TranslationKeys = {
     title: "Our Services",
     subtitle: "Comprehensive support for your educational journey",
     description: "Discover a wide range of free services designed to support you",
+    
+    // Service categories for Services component
+    checklists: "Checklists",
+    checklistsDesc: "Step-by-step guides to help you navigate your journey",
+    templates: "Templates",
+    templatesDesc: "Ready-to-use documents and forms for your applications",
+    guides: "Guides",
+    guidesDesc: "Comprehensive guides covering all aspects of studying in Germany",
+    videos: "Video Tutorials",
+    videosDesc: "Visual learning resources with expert explanations",
+    community: "Community",
+    communityDesc: "Connect with other students and get peer support",
+    viewAll: "View All Services",
+    
     searchPlaceholder: "Search services...",
     searchLabel: "Search",
     filterAll: "All Services",
@@ -791,10 +805,21 @@ export const en: TranslationKeys = {
     showLess: "Show Less"
   },
 
+  notFound: {
+    title: "Page Not Found",
+    description: "Sorry, we couldn't find the page you're looking for.",
+    attemptedPath: "Attempted path",
+    returnHome: "Return Home",
+    goBack: "Go Back",
+    suggestions: "Suggestions",
+    needHelp: "Need Help?",
+    refresh: "Refresh Page"
+  },
+
   pages: {
     about: {
       title: "About Us",
-      description: "Learn more about TuniBless"
+      description: "Learn more about TuniBless e.V. and our mission"
     }
   },
 
@@ -1008,15 +1033,5 @@ export const en: TranslationKeys = {
         description: "Get special access to resources and events."
       }
     }
-  },
-  notFound: {
-    title: "Page Not Found",
-    description: "Oops! The page you're looking for doesn't exist.",
-    attemptedPath: "Attempted path:",
-    returnHome: "Return to Home",
-    goBack: "Go Back",
-    suggestions: "Were you looking for:",
-    needHelp: "Still need help?",
-    refresh: "Refresh Page"
   }
 };
