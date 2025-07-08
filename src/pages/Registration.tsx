@@ -7,8 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { MapPin, User, Mail, MessageSquare, CheckCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useI18n } from "@/lib/i18n-context";
+import PageNavigation from "@/components/PageNavigation";
 
 const Registration = () => {
+  const { t, direction } = useI18n();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     location: "",
@@ -40,8 +43,8 @@ const Registration = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     toast({
-      title: "Registrierung erfolgreich!",
-      description: "Wir werden uns bald bei Ihnen melden. Prüfen Sie Ihre E-Mails für weitere Schritte.",
+      title: t.registration.toast.title,
+      description: t.registration.toast.description,
     });
     setStep(4);
   };
@@ -51,13 +54,15 @@ const Registration = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pt-20">
+    <>
+      <PageNavigation />
+      <div className="min-h-screen bg-background pt-20" dir={direction}>
       <div className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Registrierung</h1>
+            <h1 className="text-4xl font-bold text-foreground mb-4">{t.registration.title}</h1>
             <p className="text-muted-foreground">
-              Beginnen Sie Ihren Weg zur erfolgreichen Integration in Deutschland
+              {t.registration.subtitle}
             </p>
           </div>
 
@@ -80,9 +85,9 @@ const Registration = () => {
               ))}
             </div>
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>Standort</span>
-              <span>Kontakt</span>
-              <span>Motivation</span>
+              <span>{t.registration.progress.location}</span>
+              <span>{t.registration.progress.contact}</span>
+              <span>{t.registration.progress.motivation}</span>
             </div>
           </div>
 
@@ -90,31 +95,31 @@ const Registration = () => {
             <Card className="p-8">
               <div className="text-center mb-6">
                 <MapPin className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">Wo befinden Sie sich?</h2>
-                <p className="text-muted-foreground">Dies hilft uns, Sie der richtigen WhatsApp-Gruppe zuzuordnen</p>
+                <h2 className="text-2xl font-semibold mb-2">{t.registration.step1.title}</h2>
+                <p className="text-muted-foreground">{t.registration.step1.subtitle}</p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="location">Aktueller Aufenthaltsort</Label>
+                  <Label htmlFor="location">{t.registration.step1.location}</Label>
                   <Select onValueChange={(value) => updateFormData('location', value)}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Wählen Sie Ihren Standort" />
+                      <SelectValue placeholder={t.registration.step1.locationPlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="tunesien">Tunesien</SelectItem>
-                      <SelectItem value="deutschland">Deutschland</SelectItem>
-                      <SelectItem value="weltweit">Andere Länder</SelectItem>
+                      <SelectItem value="tunesien">{t.registration.step1.tunisia}</SelectItem>
+                      <SelectItem value="deutschland">{t.registration.step1.germany}</SelectItem>
+                      <SelectItem value="weltweit">{t.registration.step1.worldwide}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 {formData.location === 'tunesien' && (
                   <div>
-                    <Label htmlFor="governorate">Gouvernorat</Label>
+                    <Label htmlFor="governorate">{t.registration.step1.governorate}</Label>
                     <Select onValueChange={(value) => updateFormData('governorate', value)}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Wählen Sie Ihr Gouvernorat" />
+                        <SelectValue placeholder={t.registration.step1.governoratePlaceholder} />
                       </SelectTrigger>
                       <SelectContent>
                         {tunisianGovernorates.map((gov) => (
@@ -132,7 +137,7 @@ const Registration = () => {
                 disabled={!formData.location}
                 variant="hero"
               >
-                Weiter
+                {t.registration.step1.next}
               </Button>
             </Card>
           )}
@@ -141,55 +146,55 @@ const Registration = () => {
             <Card className="p-8">
               <div className="text-center mb-6">
                 <User className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">Kontaktinformationen</h2>
-                <p className="text-muted-foreground">Wie können wir Sie erreichen?</p>
+                <h2 className="text-2xl font-semibold mb-2">{t.registration.step2.title}</h2>
+                <p className="text-muted-foreground">{t.registration.step2.subtitle}</p>
               </div>
 
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName">Vorname</Label>
+                    <Label htmlFor="firstName">{t.registration.step2.firstName}</Label>
                     <Input
                       id="firstName"
                       value={formData.firstName}
                       onChange={(e) => updateFormData('firstName', e.target.value)}
-                      placeholder="Ihr Vorname"
+                      placeholder={t.registration.step2.firstNamePlaceholder}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="lastName">Nachname</Label>
+                    <Label htmlFor="lastName">{t.registration.step2.lastName}</Label>
                     <Input
                       id="lastName"
                       value={formData.lastName}
                       onChange={(e) => updateFormData('lastName', e.target.value)}
-                      placeholder="Ihr Nachname"
+                      placeholder={t.registration.step2.lastNamePlaceholder}
                     />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="email">E-Mail-Adresse</Label>
+                  <Label htmlFor="email">{t.registration.step2.email}</Label>
                   <Input
                     id="email"
                     type="email"
                     value={formData.email}
                     onChange={(e) => updateFormData('email', e.target.value)}
-                    placeholder="ihre.email@beispiel.com"
+                    placeholder={t.registration.step2.emailPlaceholder}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Telefonnummer (WhatsApp)</Label>
+                  <Label htmlFor="phone">{t.registration.step2.phone}</Label>
                   <Input
                     id="phone"
                     value={formData.phone}
                     onChange={(e) => updateFormData('phone', e.target.value)}
-                    placeholder="+49 oder +216..."
+                    placeholder={t.registration.step2.phonePlaceholder}
                   />
                 </div>
               </div>
 
               <div className="flex gap-4 mt-6">
                 <Button onClick={handleBack} variant="outline" className="flex-1">
-                  Zurück
+                  {t.registration.step2.back}
                 </Button>
                 <Button 
                   onClick={handleNext} 
@@ -197,7 +202,7 @@ const Registration = () => {
                   disabled={!formData.firstName || !formData.lastName || !formData.email || !formData.phone}
                   variant="hero"
                 >
-                  Weiter
+                  {t.registration.step2.next}
                 </Button>
               </div>
             </Card>
@@ -207,18 +212,18 @@ const Registration = () => {
             <Card className="p-8">
               <div className="text-center mb-6">
                 <MessageSquare className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h2 className="text-2xl font-semibold mb-2">Ihre Motivation</h2>
-                <p className="text-muted-foreground">Erzählen Sie uns von Ihren Zielen</p>
+                <h2 className="text-2xl font-semibold mb-2">{t.registration.step3.title}</h2>
+                <p className="text-muted-foreground">{t.registration.step3.subtitle}</p>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <Label htmlFor="motivation">Warum möchten Sie sich bei TuniBless registrieren?</Label>
+                  <Label htmlFor="motivation">{t.registration.step3.motivation}</Label>
                   <Textarea
                     id="motivation"
                     value={formData.motivation}
                     onChange={(e) => updateFormData('motivation', e.target.value)}
-                    placeholder="Beschreiben Sie Ihre Ziele und wie wir Ihnen helfen können..."
+                    placeholder={t.registration.step3.motivationPlaceholder}
                     rows={5}
                   />
                 </div>
@@ -226,14 +231,14 @@ const Registration = () => {
 
               <div className="flex gap-4 mt-6">
                 <Button onClick={handleBack} variant="outline" className="flex-1">
-                  Zurück
+                  {t.registration.step3.back}
                 </Button>
                 <Button 
                   onClick={handleSubmit} 
                   className="flex-1"
                   variant="hero"
                 >
-                  Registrierung abschließen
+                  {t.registration.step3.submit}
                 </Button>
               </div>
             </Card>
@@ -242,28 +247,28 @@ const Registration = () => {
           {step === 4 && (
             <Card className="p-8 text-center">
               <CheckCircle className="w-16 h-16 text-success mx-auto mb-4" />
-              <h2 className="text-2xl font-semibold mb-4">Registrierung erfolgreich!</h2>
+              <h2 className="text-2xl font-semibold mb-4">{t.registration.success.title}</h2>
               <p className="text-muted-foreground mb-6">
-                Vielen Dank für Ihre Registrierung. Wir werden uns innerhalb von 24 Stunden bei Ihnen melden.
+                {t.registration.success.message}
               </p>
               
               <div className="space-y-4">
                 <div className="bg-muted p-4 rounded-lg">
-                  <h3 className="font-semibold mb-2">Nächste Schritte:</h3>
+                  <h3 className="font-semibold mb-2">{t.registration.success.nextSteps}</h3>
                   <ul className="text-sm text-muted-foreground text-left space-y-1">
-                    <li>• Prüfen Sie Ihre E-Mails für weitere Informationen</li>
-                    <li>• Sie erhalten einen Link zur WhatsApp-Gruppe</li>
-                    <li>• Laden Sie unsere Checkliste herunter</li>
-                    <li>• Nehmen Sie an unserem nächsten Livestream teil</li>
+                    <li>• {t.registration.success.checkEmail}</li>
+                    <li>• {t.registration.success.joinWhatsApp}</li>
+                    <li>• {t.registration.success.downloadChecklist}</li>
+                    <li>• {t.registration.success.joinLivestream}</li>
                   </ul>
                 </div>
                 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button variant="hero" className="flex-1">
-                    WhatsApp Gruppe beitreten
+                    {t.registration.success.joinWhatsAppButton}
                   </Button>
                   <Button variant="outline" className="flex-1">
-                    Checkliste herunterladen
+                    {t.registration.success.downloadButton}
                   </Button>
                 </div>
               </div>
@@ -272,6 +277,7 @@ const Registration = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

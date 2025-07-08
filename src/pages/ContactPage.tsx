@@ -1,113 +1,175 @@
-import { Card } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { useI18n } from "@/lib/i18n-context";
+import PageNavigation from "@/components/PageNavigation";
+import ContactForm from "@/components/ContactForm";
+import ContactInfoCard from "@/components/ContactInfoCard";
+import QuickActions from "@/components/QuickActions";
+import BankingDetails from "@/components/BankingDetails";
+import EmbeddedMap from "@/components/EmbeddedMap";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, Phone, MapPin, MessageSquare, Clock } from "lucide-react";
+import { ArrowUp, Anchor, Mail, MapPin, Clock, MessageSquare, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
+import CONFIG, { getWhatsAppLink, getContactEmail, getDirectionsLink } from "@/lib/config";
 
 const ContactPage = () => {
+  const { t, direction } = useI18n();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Handle scroll for back to top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Smooth scroll to section
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offsetTop = element.offsetTop - 100; // Account for fixed navbar
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  // Check for anchor in URL on load
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+      setTimeout(() => scrollToSection(hash), 100);
+    }
+  }, []);
+
+  const anchorLinks = [
+    { id: "form", label: t.contactPage.anchors.form },
+    { id: "info", label: t.contactPage.anchors.info },
+    { id: "map", label: t.contactPage.anchors.map },
+    { id: "banking", label: t.contactPage.anchors.banking },
+  ];
+
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Kontakt</h1>
-            <p className="text-xl text-muted-foreground">Wir sind hier, um Ihnen zu helfen</p>
+    <>
+      <PageNavigation />
+      <div className="min-h-screen bg-background pt-20" dir={direction}>
+        {/* Hero Section */}
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-primary/5 via-secondary/5 to-background">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+                {t.contactPage.title}
+              </h1>
+              <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+                {t.contactPage.subtitle}
+              </p>
+              <p className="text-lg text-muted-foreground mb-8">
+                {t.contactPage.description}
+              </p>
+              
+              {/* Quick Navigation */}
+              <div className="flex flex-wrap justify-center gap-2 mt-8">
+                {anchorLinks.map((link) => (
+                  <Button
+                    key={link.id}
+                    variant="outline"
+                    size="sm"
+                    onClick={() => scrollToSection(link.id)}
+                    className="gap-2"
+                  >
+                    <Anchor className="h-3 w-3" />
+                    {link.label}
+                  </Button>
+                ))}
+              </div>
+            </motion.div>
           </div>
+        </section>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <Card className="p-8">
-              <h2 className="text-2xl font-semibold text-foreground mb-6">Nachricht senden</h2>
-              <form className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="firstName">Vorname</Label>
-                    <Input id="firstName" placeholder="Ihr Vorname" />
-                  </div>
-                  <div>
-                    <Label htmlFor="lastName">Nachname</Label>
-                    <Input id="lastName" placeholder="Ihr Nachname" />
-                  </div>
-                </div>
-                <div>
-                  <Label htmlFor="email">E-Mail-Adresse</Label>
-                  <Input id="email" type="email" placeholder="ihre.email@beispiel.com" />
-                </div>
-                <div>
-                  <Label htmlFor="topic">Betreff</Label>
-                  <Select>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Wählen Sie ein Thema" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="registration">Registrierung</SelectItem>
-                      <SelectItem value="documents">Dokumente</SelectItem>
-                      <SelectItem value="volunteer">Ehrenamtlich helfen</SelectItem>
-                      <SelectItem value="membership">Mitgliedschaft</SelectItem>
-                      <SelectItem value="other">Sonstiges</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div>
-                  <Label htmlFor="message">Nachricht</Label>
-                  <Textarea id="message" placeholder="Ihre Nachricht..." rows={5} />
-                </div>
-                <Button variant="hero" className="w-full">
-                  <Mail className="w-4 h-4 mr-2" />
-                  Nachricht senden
-                </Button>
-              </form>
-            </Card>
+        {/* Main Content */}
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-16">
+          {/* Contact Form Section */}
+          <ContactForm />
 
+          {/* Two Column Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Contact Information */}
-            <div className="space-y-6">
-              <Card className="p-6">
-                <h3 className="font-semibold text-foreground mb-4">Kontaktinformationen</h3>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <Mail className="w-5 h-5 text-primary" />
-                    <span>tunibless@gmail.com</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-primary" />
-                    <span>Husarenäcker 4, 67659 Kaiserslautern</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-primary" />
-                    <span>Mo-Fr: 9:00-18:00 Uhr</span>
-                  </div>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <h3 className="font-semibold text-foreground mb-4">Schneller Kontakt</h3>
-                <div className="space-y-3">
-                  <Button variant="outline" className="w-full justify-start">
-                    <MessageSquare className="w-4 h-4 mr-2" />
-                    WhatsApp Gruppe beitreten
-                  </Button>
-                  <Button variant="outline" className="w-full justify-start">
-                    <Phone className="w-4 h-4 mr-2" />
-                    Facebook Messenger
-                  </Button>
-                </div>
-              </Card>
-
-              <Card className="p-6">
-                <h3 className="font-semibold text-foreground mb-4">Bankverbindung</h3>
-                <div className="space-y-2 text-sm">
-                  <div><strong>Bank:</strong> Sparkasse Kaiserslautern</div>
-                  <div><strong>IBAN:</strong> DE14 5405 0220 0000 6402 68</div>
-                  <div><strong>BIC:</strong> MALADE51KLK</div>
-                </div>
-              </Card>
-            </div>
+            <ContactInfoCard />
+            
+            {/* Quick Actions */}
+            <QuickActions />
           </div>
+
+          {/* Map Section */}
+          <EmbeddedMap />
+
+          {/* Banking Details */}
+          <BankingDetails />
+
+          {/* Additional Help Section */}
+          <motion.section
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="text-center py-16 px-8 bg-gradient-to-r from-primary/5 to-secondary/5 rounded-2xl"
+          >
+            <h2 className="text-3xl font-bold text-foreground mb-4">
+              Still need help?
+            </h2>
+            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Check out our frequently asked questions or browse our comprehensive guides and resources.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button asChild size="lg" className="gap-2">
+                <Link to={CONFIG.routes.faq}>
+                  View FAQ
+                </Link>
+              </Button>
+              <Button asChild variant="outline" size="lg" className="gap-2">
+                <Link to={CONFIG.routes.services}>
+                  Browse Resources
+                </Link>
+              </Button>
+            </div>
+          </motion.section>
         </div>
+
+        {/* Back to Top Button */}
+        {showBackToTop && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            className="fixed bottom-8 right-8 z-50"
+          >
+            <Button
+              onClick={scrollToTop}
+              size="icon"
+              className="rounded-full shadow-lg hover:shadow-xl transition-shadow duration-200"
+            >
+              <ArrowUp className="h-4 w-4" />
+            </Button>
+          </motion.div>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 

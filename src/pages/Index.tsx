@@ -4,6 +4,8 @@ import Mission from "@/components/Mission";
 import Services from "@/components/Services";
 import Team from "@/components/Team";
 import Contact from "@/components/Contact";
+import StickyCTA from "@/components/StickyCTA";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   return (
@@ -14,6 +16,8 @@ const Index = () => {
       <Services />
       <Team />
       <Contact />
+      <Footer />
+      <StickyCTA />
     </div>
   );
 };

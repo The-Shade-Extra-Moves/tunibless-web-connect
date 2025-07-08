@@ -1,162 +1,92 @@
 import { Card, CardContent } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n-context";
+import { Mail, MessageCircle } from "lucide-react";
 
 const Team = () => {
+  const { t, isRTL } = useI18n();
+
   const teamMembers = [
     {
       name: "Kamel Ben Hamida",
-      role: "Vorsitzender (President)",
+      role: t.team.president,
       description: "Leading TuniBless e.V. with vision and dedication to helping Tunisian families integrate successfully into German society.",
-      region: "Leadership"
+      region: "Leadership",
+      avatar: "KB"
     },
     {
-      name: "Saif Achour",
-      role: "Kassenwart (Treasurer)",
+      name: "Saif Achour", 
+      role: t.team.treasurer,
       description: "Managing financial operations and ensuring transparent allocation of resources for community programs.",
-      region: "Finance"
+      region: "Finance",
+      avatar: "SA"
     },
     {
       name: "Nada Knani",
-      role: "Leiter Koordinatoren",
-      description: "Coordinating regional activities and ensuring smooth operations across all German territories.",
-      region: "Coordination"
+      role: t.team.coordinatorLeader,
+      description: "Coordinating regional activities and ensuring smooth operations across all German territories.", 
+      region: "Coordination",
+      avatar: "NK"
     },
     {
       name: "Maryam El Oudhane",
-      role: "Teamleiter Media",
+      role: t.team.mediaLeader,
       description: "Leading digital outreach, social media engagement, and communication strategies.",
-      region: "Media"
-    },
-    {
-      name: "Sofiene Ben Abdallah",
-      role: "Gebietskoordinator NORD",
-      description: "Managing northern German regions and supporting local community integration efforts.",
-      region: "Nord"
-    },
-    {
-      name: "Yassine",
-      role: "Gebietskoordinator WEST",
-      description: "Coordinating western German regions and facilitating training opportunities.",
-      region: "West"
-    },
-    {
-      name: "Adel Belaskar",
-      role: "Gebietskoordinator SÜD",
-      description: "Supporting southern German communities with integration and career guidance.",
-      region: "Süd"
-    },
-    {
-      name: "Hareth El Ouadhane",
-      role: "Gebietskoordinator OST",
-      description: "Managing eastern German regions and connecting families with local resources.",
-      region: "Ost"
+      region: "Media", 
+      avatar: "ME"
     }
   ];
 
-  const getRegionColor = (region: string) => {
-    const colors = {
-      Leadership: "bg-primary/10 text-primary",
-      Finance: "bg-success/10 text-success",
-      Coordination: "bg-secondary/10 text-secondary",
-      Media: "bg-accent/10 text-accent",
-      Nord: "bg-blue-100 text-blue-800",
-      West: "bg-green-100 text-green-800",
-      Süd: "bg-yellow-100 text-yellow-800",
-      Ost: "bg-purple-100 text-purple-800"
-    };
-    return colors[region as keyof typeof colors] || "bg-muted text-muted-foreground";
-  };
-
   return (
-    <section id="team" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Our Team
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full mb-6"></div>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Meet the dedicated volunteers and coordinators who make TuniBless e.V. possible, 
-            working across Germany to support Tunisian families in their integration journey.
+    <section id="team" className="py-16 bg-muted/50" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">{t.team.title}</h2>
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            {t.team.subtitle}
           </p>
         </div>
 
-        {/* Leadership team */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-foreground mb-8 text-center">Leadership Team</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamMembers.slice(0, 4).map((member, index) => (
-              <Card key={index} className="group hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gradient-primary rounded-full mb-4 mx-auto">
-                    <span className="text-2xl font-bold text-white">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div className="text-center">
-                    <h4 className="text-lg font-semibold text-foreground mb-2">
-                      {member.name}
-                    </h4>
-                    <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${getRegionColor(member.region)}`}>
-                      {member.role}
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {member.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Regional coordinators */}
-        <div>
-          <h3 className="text-2xl font-bold text-foreground mb-8 text-center">Regional Coordinators</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {teamMembers.slice(4).map((member, index) => (
-              <Card key={index} className="group hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-center w-16 h-16 bg-gradient-secondary rounded-full mb-4 mx-auto">
-                    <span className="text-2xl font-bold text-white">
-                      {member.name.split(' ').map(n => n[0]).join('')}
-                    </span>
-                  </div>
-                  <div className="text-center">
-                    <h4 className="text-lg font-semibold text-foreground mb-2">
-                      {member.name}
-                    </h4>
-                    <div className={`inline-block px-3 py-1 rounded-full text-xs font-medium mb-3 ${getRegionColor(member.region)}`}>
-                      {member.region}
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {member.description}
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Join team CTA */}
-        <div className="mt-16 text-center">
-          <Card className="bg-gradient-primary border-0 text-white">
-            <CardContent className="p-8">
-              <h3 className="text-2xl font-bold mb-4">Join Our Team</h3>
-              <p className="text-lg mb-6 text-white/90">
-                Become a volunteer and help us support more Tunisian families in their integration journey.
-              </p>
-              <div className="space-y-4">
-                <div className="flex flex-wrap justify-center gap-4 text-sm">
-                  <span className="bg-white/20 px-3 py-1 rounded-full">Volunteer Opportunities</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full">Remote Work</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full">Flexible Hours</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full">Certificate Provided</span>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+          {teamMembers.map((member, index) => (
+            <Card key={index} className="hover:shadow-lg transition-all duration-300 group">
+              <CardContent className="p-6 text-center">
+                {/* Avatar */}
+                <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <span className="text-white font-bold text-lg">{member.avatar}</span>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+                
+                <h3 className="text-xl font-semibold mb-2">{member.name}</h3>
+                <p className="text-primary font-medium mb-3">{member.role}</p>
+                <p className="text-sm text-muted-foreground mb-4">{member.description}</p>
+                
+                {/* Contact buttons */}
+                <div className="flex justify-center gap-2">
+                  <button className="p-2 text-muted-foreground hover:text-primary transition-colors" title={t.team.contact}>
+                    <Mail className="h-4 w-4" />
+                  </button>
+                  <button className="p-2 text-muted-foreground hover:text-primary transition-colors" title="WhatsApp">
+                    <MessageCircle className="h-4 w-4" />
+                  </button>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Volunteers section */}
+        <div className="text-center bg-background rounded-lg p-8">
+          <h3 className="text-2xl font-semibold mb-4">25+ {t.team.volunteers}</h3>
+          <p className="text-muted-foreground mb-6">
+            {t.team.volunteerDescription}
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">{t.team.volunteerAreas.personalConsultation}</span>
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">{t.team.volunteerAreas.workshops}</span>
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">{t.team.volunteerAreas.translation}</span>
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">{t.team.volunteerAreas.contentCreation}</span>
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">{t.team.volunteerAreas.whatsappModeration}</span>
+            <span className="px-4 py-2 bg-primary/10 text-primary rounded-full text-sm">{t.team.volunteerAreas.eventOrganization}</span>
+          </div>
         </div>
       </div>
     </section>

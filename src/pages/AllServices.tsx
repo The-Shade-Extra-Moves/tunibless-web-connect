@@ -1,298 +1,398 @@
-import { useState } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { 
-  FileText, 
-  CheckCircle, 
-  Users, 
-  Calendar, 
-  Download, 
-  Search,
+  Search, 
   Filter,
-  Video,
-  MessageSquare,
-  FileCheck,
-  Award
+  Grid,
+  List,
+  ArrowUp,
+  Eye,
+  Star,
+  Clock,
+  TrendingUp,
+  Heart,
+  Share,
+  Download
 } from "lucide-react";
 
+// Import our enhanced components
+import { useI18n } from "@/lib/i18n-context";
+import { servicesData, searchServices, Service, getServicesByCategory } from "@/lib/services-data";
+import { CONFIG } from "@/lib/config";
+import ServicesHero from "@/components/ServicesHero";
+import EnhancedSearchBar from "@/components/EnhancedSearchBar";
+import CategoryFilter from "@/components/CategoryFilter";
+import EnhancedServiceCard from "@/components/EnhancedServiceCard";
+import EmptyState from "@/components/EmptyState";
+import BackToTop from "@/components/BackToTop";
+import ServicesCTA from "@/components/ServicesCTA";
+import PageTransition from "@/components/PageTransition";
+
+export type SortType = 'popular' | 'new' | 'rating' | 'alphabetical';
+export type ViewType = 'grid' | 'list';
+
 const AllServices = () => {
+  const { t, language } = useI18n();
+  const servicesRef = useRef<HTMLDivElement>(null);
+  
+  // State management
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [currentSort, setCurrentSort] = useState<SortType>('popular');
+  const [viewType, setViewType] = useState<ViewType>('grid');
+  const [favorites, setFavorites] = useState<string[]>([]);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const services = [
-    {
-      id: 1,
-      title: "Integrations-Checkliste",
-      description: "Umfassende Checkliste mit allen erforderlichen Schritten für die erfolgreiche Integration",
-      category: "checklisten",
-      type: "PDF Download",
-      icon: CheckCircle,
-      downloadLink: "#",
-      popular: true
-    },
-    {
-      id: 2,
-      title: "Deutscher Lebenslauf Vorlage",
-      description: "Professionelle CV-Vorlage angepasst an deutsche Standards",
-      category: "cv",
-      type: "Word Template",
-      icon: FileText,
-      downloadLink: "#",
-      popular: true
-    },
-    {
-      id: 3,
-      title: "Bewerbungsschreiben Muster",
-      description: "Musterbewerbungsschreiben für verschiedene Branchen",
-      category: "cv",
-      type: "PDF Template",
-      icon: FileText,
-      downloadLink: "#"
-    },
-    {
-      id: 4,
-      title: "Dokumente-Upload Portal",
-      description: "Sicherer Upload für Zeugnisse, Pässe und andere wichtige Dokumente",
-      category: "dokumente",
-      type: "Online Tool",
-      icon: FileCheck,
-      downloadLink: "#"
-    },
-    {
-      id: 5,
-      title: "Übersetzer-Netzwerk",
-      description: "Liste zertifizierter Übersetzer für offizielle Dokumente",
-      category: "dokumente",
-      type: "Kontaktliste",
-      icon: Users,
-      downloadLink: "#"
-    },
-    {
-      id: 6,
-      title: "Bewerbungstraining Video",
-      description: "Schritt-für-Schritt Anleitung für erfolgreiche Bewerbungsgespräche",
-      category: "tutorials",
-      type: "Video",
-      icon: Video,
-      downloadLink: "#"
-    },
-    {
-      id: 7,
-      title: "Livestream Kalender",
-      description: "Termine für wöchentliche Q&A Sessions und Webinare",
-      category: "termine",
-      type: "Kalender",
-      icon: Calendar,
-      downloadLink: "#"
-    },
-    {
-      id: 8,
-      title: "WhatsApp Gruppen-Links",
-      description: "Direkte Links zu regionalen WhatsApp-Gruppen",
-      category: "community",
-      type: "Links",
-      icon: MessageSquare,
-      downloadLink: "#"
-    },
-    {
-      id: 9,
-      title: "Berufsfeld-Guide Gesundheit",
-      description: "Spezielle Informationen für Gesundheitsberufe in Deutschland",
-      category: "berufe",
-      type: "PDF Guide",
-      icon: Award,
-      downloadLink: "#"
-    },
-    {
-      id: 10,
-      title: "Berufsfeld-Guide Technik",
-      description: "Technische Ausbildungen und deren Anforderungen",
-      category: "berufe",
-      type: "PDF Guide",
-      icon: Award,
-      downloadLink: "#"
-    },
-    {
-      id: 11,
-      title: "Deutsch Lernmaterialien",
-      description: "Kostenlose Materialien zum Deutschlernen für Anfänger",
-      category: "tutorials",
-      type: "PDF + Audio",
-      icon: Video,
-      downloadLink: "#"
-    },
-    {
-      id: 12,
-      title: "Integrationskurs-Finder",
-      description: "Tool zum Finden von Integrationskursen in Ihrer Nähe",
-      category: "tools",
-      type: "Online Tool",
-      icon: Search,
-      downloadLink: "#"
+  // Load state from localStorage
+  useEffect(() => {
+    const savedCategory = localStorage.getItem('tunibless-services-category');
+    const savedSort = localStorage.getItem('tunibless-services-sort') as SortType;
+    const savedView = localStorage.getItem('tunibless-services-view') as ViewType;
+    const savedFavorites = localStorage.getItem('tunibless-services-favorites');
+    
+    if (savedCategory) setSelectedCategory(savedCategory);
+    if (savedSort) setCurrentSort(savedSort);
+    if (savedView) setViewType(savedView);
+    if (savedFavorites) {
+      try {
+        setFavorites(JSON.parse(savedFavorites));
+      } catch (e) {
+        localStorage.removeItem('tunibless-services-favorites');
+      }
     }
-  ];
+  }, []);
 
-  const categories = [
-    { id: "all", label: "Alle Ressourcen", count: services.length },
-    { id: "checklisten", label: "Checklisten", count: services.filter(s => s.category === "checklisten").length },
-    { id: "cv", label: "CV & Bewerbung", count: services.filter(s => s.category === "cv").length },
-    { id: "dokumente", label: "Dokumente", count: services.filter(s => s.category === "dokumente").length },
-    { id: "tutorials", label: "Tutorials", count: services.filter(s => s.category === "tutorials").length },
-    { id: "berufe", label: "Berufsfelder", count: services.filter(s => s.category === "berufe").length },
-    { id: "community", label: "Community", count: services.filter(s => s.category === "community").length },
-    { id: "tools", label: "Tools", count: services.filter(s => s.category === "tools").length }
-  ];
+  // Save state to localStorage
+  useEffect(() => {
+    localStorage.setItem('tunibless-services-category', selectedCategory);
+  }, [selectedCategory]);
 
-  const filteredServices = services.filter(service => {
-    const matchesSearch = service.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         service.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "all" || service.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  useEffect(() => {
+    localStorage.setItem('tunibless-services-sort', currentSort);
+  }, [currentSort]);
+
+  useEffect(() => {
+    localStorage.setItem('tunibless-services-view', viewType);
+  }, [viewType]);
+
+  useEffect(() => {
+    localStorage.setItem('tunibless-services-favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
+  // Scroll tracking for back to top button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Filter and sort services
+  const filteredAndSortedServices = useMemo(() => {
+    setIsLoading(true);
+    
+    let filtered = servicesData;
+
+    // Apply search filter
+    if (searchTerm.trim()) {
+      filtered = searchServices(searchTerm, language);
+    }
+
+    // Apply category filter
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(service => service.category === selectedCategory);
+    }
+
+    // Apply sorting
+    const sorted = [...filtered].sort((a, b) => {
+      switch (currentSort) {
+        case 'popular':
+          const aPopular = (a.popular ? 1000 : 0) + (a.rating || 0) * 100 + (a.reviews || 0);
+          const bPopular = (b.popular ? 1000 : 0) + (b.rating || 0) * 100 + (b.reviews || 0);
+          return bPopular - aPopular;
+        
+        case 'new':
+          const aNew = a.new ? 1000 : 0;
+          const bNew = b.new ? 1000 : 0;
+          return bNew - aNew;
+        
+        case 'rating':
+          return (b.rating || 0) - (a.rating || 0);
+        
+        case 'alphabetical':
+          return a.title[language].localeCompare(b.title[language]);
+        
+        default:
+          return 0;
+      }
+    });
+
+    setIsLoading(false);
+    return sorted;
+  }, [searchTerm, selectedCategory, currentSort, language]);
+
+  // Get popular/featured services for hero section
+  const popularServices = useMemo(() => {
+    return servicesData
+      .filter(service => service.popular || service.featured)
+      .slice(0, 6);
+  }, []);
+
+  // Category statistics
+  const categoryStats = useMemo(() => {
+    const stats = new Map();
+    servicesData.forEach(service => {
+      stats.set(service.category, (stats.get(service.category) || 0) + 1);
+    });
+    return stats;
+  }, []);
+
+  // Handlers
+  const handleScrollToServices = () => {
+    servicesRef.current?.scrollIntoView({ 
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
+
+  const handleFavoriteToggle = (serviceId: string) => {
+    setFavorites(prev => 
+      prev.includes(serviceId) 
+        ? prev.filter(id => id !== serviceId)
+        : [...prev, serviceId]
+    );
+  };
+
+  const handleServiceAction = (service: Service) => {
+    // Track analytics
+    console.log(`Service accessed: ${service.id}`);
+    
+    if (service.downloadUrl) {
+      window.open(service.downloadUrl, '_blank');
+    } else if (service.externalUrl) {
+      window.open(service.externalUrl, '_blank');
+    } else if (service.whatsappLink) {
+      window.open(service.whatsappLink, '_blank');
+    }
+  };
+
+  const resetFilters = () => {
+    setSearchTerm("");
+    setSelectedCategory("all");
+    setCurrentSort('popular');
+  };
 
   return (
-    <div className="min-h-screen bg-background pt-20">
-      <div className="py-16 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-foreground mb-4">Alle Ressourcen</h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Umfassende Sammlung aller Tools, Checklisten, Vorlagen und Materialien 
-              für Ihre erfolgreiche Integration in Deutschland.
-            </p>
-          </div>
+    <PageTransition>
+      <div className="min-h-screen bg-background">
+        {/* Hero Section */}
+        <ServicesHero onScrollToServices={handleScrollToServices} />
 
-          {/* Search and Filter */}
-          <div className="mb-8 space-y-4">
-            <div className="relative max-w-md mx-auto">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="Ressourcen durchsuchen..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
-            </div>
-
-            {/* Category Filter */}
-            <div className="flex flex-wrap justify-center gap-2">
-              {categories.map((category) => (
-                <Button
-                  key={category.id}
-                  variant={selectedCategory === category.id ? "hero" : "outline"}
-                  size="sm"
-                  onClick={() => setSelectedCategory(category.id)}
-                >
-                  <Filter className="w-4 h-4 mr-1" />
-                  {category.label} ({category.count})
-                </Button>
-              ))}
-            </div>
-          </div>
-
-          {/* Popular Resources */}
-          {selectedCategory === "all" && (
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold text-foreground mb-6">Beliebte Ressourcen</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {services.filter(service => service.popular).map((service) => {
-                  const IconComponent = service.icon;
-                  return (
-                    <Card key={service.id} className="p-6 hover:shadow-medium transition-all duration-300 border-primary/20">
-                      <div className="flex items-start justify-between mb-4">
-                        <IconComponent className="w-8 h-8 text-primary" />
-                        <Badge variant="secondary">Beliebt</Badge>
-                      </div>
-                      <h3 className="font-semibold text-foreground mb-2">{service.title}</h3>
-                      <p className="text-sm text-muted-foreground mb-4">{service.description}</p>
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded">
-                          {service.type}
-                        </span>
-                        <Button size="sm" variant="hero">
-                          <Download className="w-4 h-4 mr-1" />
-                          Herunterladen
-                        </Button>
-                      </div>
-                    </Card>
-                  );
-                })}
+        {/* Main Services Section */}
+        <div ref={servicesRef} className="py-16 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto space-y-8">
+            
+            {/* Search and Controls */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              {/* Search Bar */}
+              <div className="max-w-2xl mx-auto">
+                <EnhancedSearchBar
+                  value={searchTerm}
+                  onChange={setSearchTerm}
+                  onSortChange={setCurrentSort}
+                  currentSort={currentSort}
+                  placeholder={t.services.searchPlaceholder}
+                  showSuggestions={true}
+                />
               </div>
-            </div>
-          )}
 
-          {/* All Resources */}
-          <div>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-foreground">
-                {selectedCategory === "all" ? "Alle Ressourcen" : categories.find(c => c.id === selectedCategory)?.label}
-              </h2>
-              <span className="text-muted-foreground">
-                {filteredServices.length} {filteredServices.length === 1 ? "Ressource" : "Ressourcen"}
-              </span>
-            </div>
+              {/* Controls Row */}
+              <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                {/* Category Filter */}
+                <div className="flex-1 w-full sm:w-auto">
+                  <CategoryFilter
+                    selectedCategory={selectedCategory}
+                    onCategoryChange={setSelectedCategory}
+                  />
+                </div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredServices.map((service) => {
-                const IconComponent = service.icon;
-                return (
-                  <Card key={service.id} className="p-6 hover:shadow-medium transition-all duration-300">
-                    <div className="flex items-start justify-between mb-4">
-                      <IconComponent className="w-6 h-6 text-primary" />
-                      {service.popular && (
-                        <Badge variant="secondary" className="text-xs">Beliebt</Badge>
-                      )}
-                    </div>
-                    <h3 className="font-semibold text-foreground mb-2 line-clamp-2">{service.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">{service.description}</p>
-                    <div className="space-y-3">
-                      <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded block text-center">
-                        {service.type}
-                      </span>
-                      <Button size="sm" variant="outline" className="w-full">
-                        <Download className="w-4 h-4 mr-1" />
-                        Herunterladen
-                      </Button>
-                    </div>
-                  </Card>
-                );
-              })}
-            </div>
+                {/* View Controls */}
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center rounded-lg border bg-background p-1">
+                    <Button
+                      variant={viewType === 'grid' ? 'default' : 'ghost'}
+                      size="sm"
+                      onClick={() => setViewType('grid')}
+                      className="h-8 w-8 p-0"
+                    >
+                      <Grid className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant={viewType === 'list' ? 'default' : 'ghost'}
+                      size="sm"
+                      onClick={() => setViewType('list')}
+                      className="h-8 w-8 p-0"
+                    >
+                      <List className="w-4 h-4" />
+                    </Button>
+                  </div>
 
-            {filteredServices.length === 0 && (
-              <div className="text-center py-12">
-                <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-foreground mb-2">Keine Ressourcen gefunden</h3>
+                  {(searchTerm || selectedCategory !== 'all') && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={resetFilters}
+                      className="text-xs"
+                    >
+                      {t.services?.resetFilters || 'Reset Filters'}
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Results Header */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="flex items-center justify-between"
+            >
+              <div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  {selectedCategory === 'all' 
+                    ? (t.services?.categories?.all || 'All Resources')
+                    : (t.services?.categories?.[selectedCategory as keyof typeof t.services.categories] || selectedCategory)
+                  }
+                </h2>
                 <p className="text-muted-foreground">
-                  Versuchen Sie andere Suchbegriffe oder wählen Sie eine andere Kategorie.
+                  {filteredAndSortedServices.length} {filteredAndSortedServices.length === 1 ? (t.services?.result || 'result') : (t.services?.results || 'results')}
+                  {searchTerm && ` for "${searchTerm}"`}
                 </p>
               </div>
+
+              {/* Sort Indicator */}
+              <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
+                <span>Sorted by:</span>
+                <Badge variant="outline" className="gap-1">
+                  {currentSort === 'popular' && <TrendingUp className="w-3 h-3" />}
+                  {currentSort === 'new' && <Clock className="w-3 h-3" />}
+                  {currentSort === 'rating' && <Star className="w-3 h-3" />}
+                  {t.services?.sortBy?.[currentSort] || currentSort}
+                </Badge>
+              </div>
+            </motion.div>
+
+            {/* Services Grid/List */}
+            <AnimatePresence mode="wait">
+              {isLoading ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+                >
+                  {Array.from({ length: 8 }).map((_, index) => (
+                    <Card key={index} className="p-6 animate-pulse">
+                      <div className="space-y-4">
+                        <div className="h-6 bg-muted rounded" />
+                        <div className="h-4 bg-muted rounded w-3/4" />
+                        <div className="h-4 bg-muted rounded w-1/2" />
+                        <div className="h-8 bg-muted rounded" />
+                      </div>
+                    </Card>
+                  ))}
+                </motion.div>
+              ) : filteredAndSortedServices.length > 0 ? (
+                <motion.div
+                  key="services"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className={`grid gap-6 ${
+                    viewType === 'grid' 
+                      ? 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+                      : 'grid-cols-1 max-w-4xl mx-auto'
+                  }`}
+                >
+                  {filteredAndSortedServices.map((service, index) => (
+                    <motion.div
+                      key={service.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                    >
+                      <EnhancedServiceCard
+                        service={service}
+                        index={index}
+                        searchQuery={searchTerm}
+                        variant={viewType === 'list' ? 'compact' : 'default'}
+                      />
+                    </motion.div>
+                  ))}
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <EmptyState
+                    type="search"
+                    searchQuery={searchTerm}
+                    selectedCategory={selectedCategory}
+                    onClearSearch={() => setSearchTerm("")}
+                    onClearFilters={resetFilters}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Load More Button (for future pagination) */}
+            {filteredAndSortedServices.length > 20 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center"
+              >
+                <Button variant="outline" size="lg">
+Load More
+                </Button>
+              </motion.div>
             )}
           </div>
-
-          {/* CTA Section */}
-          <div className="mt-16 text-center bg-gradient-primary/10 rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Benötigen Sie persönliche Beratung?</h2>
-            <p className="text-muted-foreground mb-6">
-              Unser Team steht Ihnen für individuelle Fragen zur Verfügung.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button variant="hero">
-                <MessageSquare className="w-4 h-4 mr-2" />
-                WhatsApp Gruppe beitreten
-              </Button>
-              <Button variant="outline">
-                <Calendar className="w-4 h-4 mr-2" />
-                Beratungstermin buchen
-              </Button>
-            </div>
-          </div>
         </div>
+
+        {/* CTA Section */}
+        <ServicesCTA />
+
+        {/* Back to Top Button */}
+        <AnimatePresence>
+          {showBackToTop && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="fixed bottom-6 right-6 z-50"
+            >
+              <BackToTop />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
-    </div>
+    </PageTransition>
   );
 };
 

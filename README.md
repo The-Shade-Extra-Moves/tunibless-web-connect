@@ -1,73 +1,302 @@
-# Welcome to your Lovable project
+# TuniBless - Connecting Tunisian Community in Germany 🇹🇳🇩🇪
 
-## Project info
+A modern, multilingual platform designed to support Tunisian applicants and residents in Germany with essential services, resources, and community connections.
 
-**URL**: https://lovable.dev/projects/de06be76-a49a-41d5-b5c1-380aff2779b9
+## 🌟 Project Overview
 
-## How can I edit this code?
+TuniBless is a comprehensive web platform that bridges the gap between Tunisian nationals and German administrative, legal, and social services. Our mission is to simplify the integration process and provide accessible support for Tunisians living in or planning to move to Germany.
 
-There are several ways of editing your application.
+### Key Features
 
-**Use Lovable**
+- 🌍 **Multilingual Support** - German, Arabic, French, and English
+- 🌙 **Dark/Light Mode** - Adaptive themes for better user experience
+- 📱 **Mobile-First Design** - Responsive across all devices
+- ♿ **Accessibility Focused** - WCAG 2.1 compliant
+- 🎨 **Modern UI/UX** - Beautiful animations and intuitive navigation
+- 🔍 **SEO Optimized** - Enhanced search engine visibility
+- 🌐 **RTL/LTR Support** - Proper text direction for Arabic content
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/de06be76-a49a-41d5-b5c1-380aff2779b9) and start prompting.
+## 🛠 Technology Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+This project is built with modern web technologies:
 
-**Use your preferred IDE**
+- **Frontend Framework**: React 18 + TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS + shadcn/ui components
+- **Routing**: React Router DOM
+- **Icons**: Lucide React
+- **Theming**: next-themes
+- **Package Manager**: Bun/npm
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📋 Prerequisites
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Before running this project, make sure you have:
 
-Follow these steps:
+- Node.js (v18 or higher) - [Install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- npm or Bun package manager
+- Git
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
+## 🚀 Getting Started
+
+### Local Development
+
+```bash
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to project directory
+cd tunibless-web-connect
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
+# or
+bun install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start development server
 npm run dev
+# or
+bun run dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```bash
+# Build the project
+npm run build
+# or
+bun run build
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+# Preview the build
+npm run preview
+# or
+bun run preview
+```
 
-## What technologies are used for this project?
+## 📁 Project Structure
 
-This project is built with:
+```
+tunibless-web-connect/
+├── public/                     # Static assets
+│   ├── favicon.ico
+│   ├── robots.txt
+│   └── _redirects
+├── src/
+│   ├── components/            # Reusable UI components
+│   │   ├── ui/               # shadcn/ui components
+│   │   ├── Navigation.tsx    # Main navigation
+│   │   ├── Footer.tsx        # Site footer
+│   │   ├── Hero.tsx          # Hero section
+│   │   ├── Services.tsx      # Services showcase
+│   │   ├── Mission.tsx       # Mission statement
+│   │   ├── Contact.tsx       # Contact form
+│   │   ├── Team.tsx          # Team members
+│   │   ├── LanguageSwitcher.tsx # Language selection
+│   │   ├── ThemeSwitcher.tsx    # Dark/light mode toggle
+│   │   └── StickyCTA.tsx        # Floating action buttons
+│   ├── pages/                # Route components
+│   │   ├── Index.tsx         # Homepage
+│   │   ├── About.tsx         # About page
+│   │   ├── Registration.tsx  # Registration process
+│   │   ├── AllServices.tsx   # Services overview
+│   │   ├── ServiceCategory.tsx # Service categories
+│   │   ├── ContactPage.tsx   # Contact form page
+│   │   ├── Germany.tsx       # Germany information
+│   │   ├── Tunisia.tsx       # Tunisia information
+│   │   ├── Global.tsx        # Global services
+│   │   ├── RegionPage.tsx    # Regional information
+│   │   ├── Events.tsx        # Community events
+│   │   ├── FAQ.tsx           # Frequently asked questions
+│   │   ├── Onboarding.tsx    # User onboarding
+│   │   ├── Downloads.tsx     # Document downloads
+│   │   ├── Glossar.tsx       # Terms glossary
+│   │   ├── Roadmap.tsx       # Platform roadmap
+│   │   ├── Spenden.tsx       # Donations page
+│   │   ├── Mitglied.tsx      # Membership page
+│   │   ├── Helfer.tsx        # Volunteer page
+│   │   ├── Success.tsx       # Success confirmation
+│   │   ├── Danke.tsx         # Thank you page
+│   │   ├── Impressum.tsx     # Legal notice
+│   │   ├── Datenschutz.tsx   # Privacy policy
+│   │   ├── Cookies.tsx       # Cookie policy
+│   │   └── NotFound.tsx      # 404 error page
+│   ├── hooks/                # Custom React hooks
+│   ├── lib/                  # Utility functions
+│   ├── assets/               # Images and media
+│   ├── App.tsx               # Main app component
+│   └── main.tsx              # Application entry point
+├── package.json              # Project dependencies
+├── vite.config.ts           # Vite configuration
+├── tailwind.config.ts       # Tailwind CSS configuration
+├── tsconfig.json            # TypeScript configuration
+└── README.md                # This file
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🌐 Available Routes
 
-## How can I deploy this project?
+The platform includes comprehensive routing for all essential pages:
 
-Simply open [Lovable](https://lovable.dev/projects/de06be76-a49a-41d5-b5c1-380aff2779b9) and click on Share -> Publish.
+### Main Pages
+- `/` - Homepage with hero, services, and mission
+- `/about` - About TuniBless and team
+- `/registration` - User registration process
+- `/services` - All available services
+- `/services/:category` - Specific service categories
+- `/contact` - Contact form and information
 
-## Can I connect a custom domain to my Lovable project?
+### Regional Pages
+- `/germany` - Germany-specific information
+- `/tunisia` - Tunisia-specific information
+- `/global` - Global services
+- `/region/:gov` - Regional government information
 
-Yes, you can!
+### Community Features
+- `/events` - Community events and meetups
+- `/faq` - Frequently asked questions
+- `/onboarding` - New user guidance
+- `/downloads` - Document downloads
+- `/glossar` - Terms and definitions
+- `/roadmap` - Platform development roadmap
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Engagement Pages
+- `/donate` - Donation and support
+- `/mitglied` - Membership program
+- `/helfer` - Volunteer opportunities
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Utility Pages
+- `/success` - Success confirmation
+- `/danke` - Thank you page
+- `/impressum` - Legal notice (German requirement)
+- `/datenschutz` - Privacy policy
+- `/cookies` - Cookie policy
+
+## 🎨 Design System
+
+### Theme Support
+- Light and dark modes with smooth transitions
+- Consistent color palette across themes
+- Proper contrast ratios for accessibility
+
+### Typography
+- Responsive font scaling
+- Optimized for multilingual content
+- Clear hierarchy and readability
+
+### Components
+- Reusable UI components from shadcn/ui
+- Custom styled components for TuniBless branding
+- Accessible form elements and interactive components
+
+## 🌍 Internationalization
+
+The platform supports multiple languages:
+- **German (DE)** - Primary language
+- **Arabic (AR)** - With RTL text direction
+- **French (FR)** - Secondary language
+- **English (EN)** - International support
+
+Language switching is available through the navigation bar, with proper RTL/LTR text direction handling.
+
+## ♿ Accessibility Features
+
+- WCAG 2.1 AA compliance
+- Keyboard navigation support
+- Screen reader optimized
+- High contrast mode support
+- Focus indicators and skip links
+- Semantic HTML structure
+
+## 📱 Mobile Responsiveness
+
+- Mobile-first design approach
+- Touch-friendly interface elements
+- Optimized performance on mobile devices
+- Progressive Web App (PWA) ready
+
+## 🔧 Development Guidelines
+
+### Code Style
+- TypeScript for type safety
+- ESLint and Prettier for code formatting
+- Consistent component structure
+- Clear naming conventions
+
+### Component Structure
+```tsx
+// Component naming: PascalCase
+// Props interface: ComponentNameProps
+// Export: named export preferred
+
+interface ComponentNameProps {
+  // Define props with proper types
+}
+
+export const ComponentName: React.FC<ComponentNameProps> = ({ props }) => {
+  // Component logic
+  
+  return (
+    // JSX with proper accessibility attributes
+  );
+};
+```
+
+### Best Practices
+- Use semantic HTML elements
+- Implement proper error boundaries
+- Optimize images and assets
+- Follow React hooks best practices
+- Write accessible code by default
+
+## 🚀 Deployment
+
+### Lovable Platform
+The project is configured for deployment on Lovable:
+
+1. Visit the [Lovable Project](https://lovable.dev/projects/de06be76-a49a-41d5-b5c1-380aff2779b9)
+2. Click Share → Publish
+3. Configure custom domain if needed
+
+### Alternative Deployment Options
+- **Vercel**: `npm run build` and deploy dist folder
+- **Netlify**: Connect GitHub repository for automatic deployments
+- **GitHub Pages**: Use GitHub Actions for automated deployment
+
+## 🤝 Contributing
+
+We welcome contributions to improve TuniBless! Please follow these steps:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Contribution Guidelines
+- Follow the existing code style
+- Add proper TypeScript types
+- Include accessibility considerations
+- Test across different screen sizes
+- Update documentation as needed
+
+## 📞 Support & Contact
+
+- **Website**: [TuniBless Platform](https://tunibless.de)
+- **Email**: info@tunibless.de
+- **WhatsApp**: +49 123 456 7890
+- **Community**: Join our Telegram group
+
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Tunisian community in Germany for inspiration and feedback
+- Open source contributors and maintainers
+- shadcn/ui for the excellent component library
+- The React and TypeScript communities
+
+---
+
+**Made with ❤️ for the Tunisian community in Germany**

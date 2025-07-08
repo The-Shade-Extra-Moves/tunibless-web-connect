@@ -1,203 +1,162 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useI18n } from "@/lib/i18n-context";
+import { Mail, MapPin, Phone, MessageCircle, Facebook, Clock } from "lucide-react";
+import { useState } from "react";
 
 const Contact = () => {
+  const { t, isRTL } = useI18n();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+
   const contactInfo = [
     {
-      title: "Email",
-      value: "tunibless@gmail.com",
+      title: t.contact.email,
+      value: "info@tunibless.org",
       description: "General inquiries and support",
-      icon: "📧"
+      icon: Mail
     },
     {
-      title: "Address",
-      value: "Husarenäcker 4, 67659 Kaiserslautern",
+      title: t.contact.address,
+      value: t.footer.address,
       description: "Registered office location",
-      icon: "📍"
+      icon: MapPin
     },
     {
-      title: "Bank Details",
-      value: "Sparkasse Kaiserslautern",
-      description: "IBAN: DE14 5405 0220 0000 6402 68",
-      icon: "🏦"
+      title: t.contact.phone,
+      value: t.footer.phone,
+      description: "Business hours only",
+      icon: Phone
     }
   ];
 
-  const socialLinks = [
-    {
-      name: "Facebook Page",
-      url: "https://www.facebook.com/TuniBless",
-      description: "Follow our updates and announcements",
-      icon: "📘"
-    },
-    {
-      name: "Facebook Group",
-      url: "https://www.facebook.com/groups/399441904483291",
-      description: "TuniBless Initiative zur Ausbildung",
-      icon: "👥"
-    },
-    {
-      name: "Current Website",
-      url: "https://sites.google.com/view/ausbildungfuertunesier",
-      description: "Our current information hub",
-      icon: "🌐"
-    }
-  ];
-
-  const documents = [
-    { name: "Satzung arabisch", description: "Association statute in Arabic" },
-    { name: "Flyer arabisch", description: "Mission flyer in Arabic" },
-    { name: "Mitgliedsantrag", description: "Membership application form" },
-    { name: "Erklärung zur Impfung", description: "Vaccination declaration" },
-    { name: "Vollmacht zur Anerkennung", description: "Power of attorney for recognition" }
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle form submission
+    console.log('Form submitted:', formData);
+  };
 
   return (
-    <section id="contact" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-            Get in Touch
-          </h2>
-          <div className="w-24 h-1 bg-primary mx-auto rounded-full mb-6"></div>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Ready to start your integration journey? Contact us today or join our community platforms.
+    <section id="contact" className="py-16 bg-background" dir={isRTL ? 'rtl' : 'ltr'}>
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold mb-4">{t.contact.title}</h2>
+          <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto">
+            {t.contact.subtitle}
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Information */}
-          <div className="lg:col-span-2">
-            <h3 className="text-2xl font-bold text-foreground mb-6">Contact Information</h3>
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <Card key={index} className="group hover:shadow-medium transition-all duration-300">
+          <div className="space-y-6">
+            <h3 className="text-2xl font-semibold mb-6">Get in Touch</h3>
+            
+            {contactInfo.map((info, index) => {
+              const IconComponent = info.icon;
+              return (
+                <Card key={index} className="hover:shadow-md transition-shadow">
                   <CardContent className="p-6">
-                    <div className="flex items-center space-x-4">
-                      <div className="text-2xl">{info.icon}</div>
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <IconComponent className="h-6 w-6 text-primary" />
+                      </div>
                       <div className="flex-1">
-                        <h4 className="font-semibold text-foreground">{info.title}</h4>
-                        <p className="text-lg text-primary font-medium">{info.value}</p>
+                        <h4 className="font-semibold mb-1">{info.title}</h4>
+                        <p className="text-foreground mb-1">{info.value}</p>
                         <p className="text-sm text-muted-foreground">{info.description}</p>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          </div>
+              );
+            })}
 
-          {/* Quick Actions */}
-          <div>
-            <h3 className="text-2xl font-bold text-foreground mb-6">Quick Actions</h3>
-            <div className="space-y-4">
-              <Card className="bg-gradient-primary border-0 text-white">
-                <CardContent className="p-6">
-                  <h4 className="font-semibold mb-2">Register Now</h4>
-                  <p className="text-sm text-white/90 mb-4">
-                    Start your integration journey today
-                  </p>
-                  <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10">
-                    Register
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-success/10 border-success/20">
-                <CardContent className="p-6">
-                  <h4 className="font-semibold mb-2">Monthly Live Sessions</h4>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Join our Facebook Live Q&A sessions
-                  </p>
-                  <Button variant="success" className="w-full">
-                    Join Session
-                  </Button>
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardContent className="p-6">
-                  <h4 className="font-semibold mb-2">WhatsApp Groups</h4>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    24 regional groups available
-                  </p>
-                  <Button variant="outline" className="w-full">
-                    Join Group
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-
-        {/* Social Links */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            Connect with Us Online
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {socialLinks.map((link, index) => (
-              <Card key={index} className="group hover:shadow-medium transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6 text-center">
-                  <div className="text-4xl mb-4">{link.icon}</div>
-                  <h4 className="font-semibold text-foreground mb-2">{link.name}</h4>
-                  <p className="text-sm text-muted-foreground mb-4">{link.description}</p>
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={() => window.open(link.url, '_blank')}
-                  >
-                    Visit
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-
-        {/* Documents */}
-        <div className="mb-16">
-          <h3 className="text-2xl font-bold text-foreground mb-6 text-center">
-            Important Documents
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {documents.map((doc, index) => (
-              <Card key={index} className="group hover:shadow-medium transition-all duration-300">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-foreground text-sm">{doc.name}</h4>
-                      <p className="text-xs text-muted-foreground">{doc.description}</p>
-                    </div>
-                    <Button variant="ghost" size="sm">
-                      📄
-                    </Button>
+            {/* Opening Hours */}
+            <Card className="hover:shadow-md transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+                    <Clock className="h-6 w-6 text-primary" />
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+                  <div className="flex-1">
+                    <h4 className="font-semibold mb-2">{t.contact.hours}</h4>
+                    <div className="space-y-1 text-sm">
+                      <div className="flex justify-between">
+                        <span>{t.contact.mondayFriday}:</span>
+                        <span>9:00 - 18:00</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>{t.contact.saturday}:</span>
+                        <span>10:00 - 14:00</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>{t.contact.sunday}:</span>
+                        <span>{t.contact.closed}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
 
-        {/* Legal Notice */}
-        <div className="text-center">
-          <Card className="bg-muted/50 border-0">
-            <CardContent className="p-8">
-              <h4 className="font-semibold text-foreground mb-4">
-                Legal Notice & Disclaimer
-              </h4>
-              <p className="text-sm text-muted-foreground mb-4">
-                TuniBless e.V. is a registered non-profit association in Germany. 
-                We provide guidance and support but cannot guarantee specific outcomes. 
-                All external links are provided for information purposes only.
-              </p>
-              <div className="text-xs text-muted-foreground space-y-1">
-                <p>© 2024 TuniBless e.V. - Alle Rechte vorbehalten</p>
-                <p>Registered in Germany as a gemeinnütziger Verein</p>
+            {/* Social Links */}
+            <div className="flex gap-4">
+              <Button variant="outline" size="lg" className="flex-1">
+                <MessageCircle className="h-5 w-5 mr-2" />
+                {t.contact.joinWhatsApp}
+              </Button>
+              <Button variant="outline" size="lg" className="flex-1">
+                <Facebook className="h-5 w-5 mr-2" />
+                {t.contact.followFacebook}
+              </Button>
+            </div>
+          </div>
+
+          {/* Contact Form */}
+          <div>
+            <h3 className="text-2xl font-semibold mb-6">{t.contact.sendMessage}</h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    placeholder={t.forms.firstName}
+                    value={formData.name}
+                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    required
+                  />
+                </div>
+                <div>
+                  <Input
+                    type="email"
+                    placeholder={t.forms.email}
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    required
+                  />
+                </div>
               </div>
-            </CardContent>
-          </Card>
+              
+              <div>
+                <Textarea
+                  placeholder={t.forms.message}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
+                  rows={6}
+                  required
+                />
+              </div>
+
+              <Button type="submit" size="lg" className="w-full">
+                <Mail className="h-5 w-5 mr-2" />
+                {t.forms.submit}
+              </Button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
